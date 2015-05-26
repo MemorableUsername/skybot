@@ -68,7 +68,7 @@ def construct_sentence(nick, chan, db, chain_length=None):
 
 # The plugin will watch the chat record word patterns.
 @hook.regex("^[^.?]")
-def watch_chat(inp, nick='', chan='', db=None, match='', msg=''):
+def watch_chat(inp, nick='', chan='', db=None, match='', msg='', say=''):
     # try to create necessary tables
     #markov_words maps each word to a wordID
     db.execute("CREATE TABLE IF NOT EXISTS markov_words (wordID INTEGER PRIMARY KEY, value UNIQUE)")
@@ -126,7 +126,7 @@ def watch_chat(inp, nick='', chan='', db=None, match='', msg=''):
     db.commit()
     
     if random.random() < response_rate:
-        return construct_sentence(nick=None, chan=chan, db=db, chain_length = 2)
+        say(construct_sentence(nick=None, chan=chan, db=db, chain_length = 2))
     return None
 
 def build_allchains_dict_from_message(msg, db):
